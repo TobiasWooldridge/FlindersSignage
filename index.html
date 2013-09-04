@@ -6,30 +6,20 @@
   <body>
 
     <div ng-controller="RoomController">
-      <h1>{{ room.full_name }} <small>({{ room.full_code }})</small></h1>
-
-      <ul>
-        <li ng-repeat="booking in room.todays_bookings" ng-include="'views/room-booking.html'"></li>
-      </ul>
+      <h1>{{ building.name }}</h1>
+      <div ng-repeat="room in building.rooms" ng-include="'views/room.html'">
+      </div>
     </div>
 
     <script>
       var signage = angular.module('signage',[]);
  
       signage.controller('RoomController', function($scope, $http) {
-        $http.jsonp('http://flinders-signage.herokuapp.com/api/v1/buildings/IST/rooms/STH3.jsonp?callback=JSON_CALLBACK')
+        $http.jsonp('http://flinders-signage.herokuapp.com/api/v1/buildings/IST.jsonp?callback=JSON_CALLBACK')
           .success(function(data, status, headers, config) {
-            $scope.room = data;
+            $scope.building = data;
             console.log(data);
           });
-
-
-      signage.directive('ngFormField', function($compile) {
-        return {
-          templateUrl : 'views/room-booking.html'
-        }
-      });
-
       });
     </script>
   </body>
