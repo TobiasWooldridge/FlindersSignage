@@ -8,23 +8,28 @@
     <div ng-controller="RoomController">
       <h1>{{ room.full_name }} <small>{{ room.full_code }}</small></h1>
 
-      <div ng-include="bookingTemplate.html"></div>
+      <ul>
+        <li ng-repeat="booking in room.todays_bookings" ng-include="'views/room-booking.html'"></li>
+      </ul>
     </div>
-
-    <script type="text/ng-template" id="bookingTemplate.html">
-      <div class="booking">
-        <p>Booking</p>
-      </div>
-    </script>
 
     <script>
       var signage = angular.module('signage',[]);
  
       signage.controller('RoomController', function($scope, $http) {
-        $http.jsonp('http://127.0.0.1:3000/api/v1/buildings/ENGR/rooms/209.jsonp?callback=JSON_CALLBACK')
+        $http.jsonp('http://127.0.0.1:3000/api/v1/buildings/IST/rooms/STH3.jsonp?callback=JSON_CALLBACK')
           .success(function(data, status, headers, config) {
             $scope.room = data;
+            console.log(data);
           });
+
+
+      signage.directive('ngFormField', function($compile) {
+        return {
+          templateUrl : 'views/room-booking.html'
+        }
+      });
+
       });
     </script>
   </body>
