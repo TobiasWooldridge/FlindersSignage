@@ -6,7 +6,7 @@
   <body>
 
     <div ng-controller="RoomController">
-      <h1>{{ room.full_name }} <small>{{ room.full_code }}</small></h1>
+      <h1>{{ room.full_name }} <small>({{ room.full_code }})</small></h1>
 
       <ul>
         <li ng-repeat="booking in room.todays_bookings" ng-include="'views/room-booking.html'"></li>
