@@ -1,0 +1,30 @@
+<html ng-app="signage">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+  </head>
+  <body>
+
+    <div ng-controller="RoomController">
+      <h1>{{ room.full_name }} <small>{{ room.full_code }}</small></h1>
+
+      <div ng-include="bookingTemplate.html"></div>
+    </div>
+
+    <script type="text/ng-template" id="bookingTemplate.html">
+      <div class="booking">
+        <p>Booking</p>
+      </div>
+    </script>
+
+    <script>
+      var signage = angular.module('signage',[]);
+ 
+      signage.controller('RoomController', function($scope, $http) {
+        $http.jsonp('http://127.0.0.1:3000/api/v1/buildings/ENGR/rooms/209.jsonp?callback=JSON_CALLBACK')
+          .success(function(data, status, headers, config) {
+            $scope.room = data;
+          });
+      });
+    </script>
+  </body>
+</html>
