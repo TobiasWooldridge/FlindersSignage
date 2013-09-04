@@ -17,7 +17,7 @@
       var signage = angular.module('signage',[]);
  
       signage.controller('RoomController', function($scope, $http) {
-        $http.jsonp('http://127.0.0.1:3000/api/v1/buildings/IST/rooms/STH3.jsonp?callback=JSON_CALLBACK')
+        $http.jsonp('http://flinders-signage.herokuapp.com/api/v1/buildings/IST/rooms/STH3.jsonp?callback=JSON_CALLBACK')
           .success(function(data, status, headers, config) {
             $scope.room = data;
             console.log(data);
