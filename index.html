@@ -1,36 +1,73 @@
 <html ng-app="signage">
-  <head>
+<head>
     <title>Flinders Signage</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
-  </head>
-  <body>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-sanitize.js"></script>
 
-    <div ng-controller="RoomController">
-      <h1>{{ room.full_name }} <small>({{ room.full_code }})</small></h1>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"/>
 
-      <ul>
-        <li ng-repeat="booking in room.todays_bookings" ng-include="'views/room-booking.html'"></li>
-      </ul>
+
+    <link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+
+<div ng-controller="SlidesController">
+
+    <div ng-controller="NewsController">
+        <div ng-repeat="article in [news.latestArticle]" ng-include="'views/news-article.html'"></div>
     </div>
 
-    <script>
-      var signage = angular.module('signage',[]);
- 
-      signage.controller('RoomController', function($scope, $http) {
-        $http.jsonp('http://flinders-signage.herokuapp.com/api/v1/buildings/IST/rooms/STH3.jsonp?callback=JSON_CALLBACK')
-          .success(function(data, status, headers, config) {
-            $scope.room = data;
-            console.log(data);
-          });
+    <div ng-controller="TimetableController">
+        <div ng-include="'views/building.html'"></div>
+    </div>
 
+</div>
 
-      signage.directive('ngFormField', function($compile) {
-        return {
-          templateUrl : 'views/room-booking.html'
-        }
-      });
+<script>
+    function bootstrapAngular() {
+        var API_PATH = "//flinders-signage.herokuapp.com/api/v1/";
 
-      });
-    </script>
-  </body>
+        var signage = angular.module('signage', ['ngSanitize']);
+
+        signage.factory('buildingFactory', function ($http) {
+            return {
+                getBuildingsAsync: function (building_code, room_code, callback) {
+                    $http.get(API_PATH + 'buildings.json').success(callback);
+                },
+                getBuildingAsync: function (building_code, callback) {
+                    $http.get(API_PATH + 'buildings/' + building_code + '.json').success(callback);
+                }
+            };
+        });
+
+        signage.factory('newsFactory', function ($http) {
+            return {
+                getNewsAsync: function (callback) {
+                    $http.get(API_PATH + 'news.json').success(callback);
+                }
+            };
+        });
+
+        signage.controller('SlidesController', function ($scope) {
+        });
+
+        signage.controller('NewsController', function ($scope, newsFactory) {
+            newsFactory.getNewsAsync(function (data, status, headers, config) {
+                $scope.news = {
+                    posts: data,
+                    latestArticle: data[0]
+                };
+            });
+        });
+
+        signage.controller('TimetableController', function ($scope, buildingFactory) {
+            buildingFactory.getBuildingAsync('IST', function (data, status, headers, config) {
+                $scope.building = data;
+            });
+        });
+    };
+
+    bootstrapAngular();
+</script>
+</body>
 </html>

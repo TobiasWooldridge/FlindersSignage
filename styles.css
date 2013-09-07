@@ -1,0 +1,7 @@
+body {
+    padding: 0 1em;
+}
+
+.entity ul.children {
+    list-style: none;
+}

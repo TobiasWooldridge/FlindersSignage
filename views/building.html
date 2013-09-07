@@ -1,0 +1,6 @@
+<div class="entity building">
+    <h1>{{ building.name }}</h1>
+    <ul class="children">
+        <li ng-repeat="room in building.rooms" ng-include="'views/room.html'"></li>
+    </ul>
+</div>
