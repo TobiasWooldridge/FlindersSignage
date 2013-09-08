@@ -1,9 +1,10 @@
 <html ng-app="signage">
 <head>
     <title>Flinders Signage</title>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-sanitize.js"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-sanitize.js"></script>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
 
 
     <link href="styles.css" rel="stylesheet"/>
@@ -11,7 +12,6 @@
 <body>
 
 <div ng-controller="SlidesController">
-
     <div ng-controller="NewsController">
         <div ng-repeat="article in [news.latestArticle]" ng-include="'views/news-article.html'"></div>
     </div>
@@ -19,12 +19,12 @@
     <div ng-controller="TimetableController">
         <div ng-include="'views/building.html'"></div>
     </div>
-
 </div>
 
 <script>
     function bootstrapAngular() {
-        var API_PATH = "//flinders-signage.herokuapp.com/api/v1/";
+        var API_PATH = "http://flinders-signage.herokuapp.com/api/v1/";
+//        var API_PATH = "http://127.0.0.1:3000/api/v1/";
 
         var signage = angular.module('signage', ['ngSanitize']);
 
@@ -59,10 +59,16 @@
             });
         });
 
-        signage.controller('TimetableController', function ($scope, buildingFactory) {
-            buildingFactory.getBuildingAsync('IST', function (data, status, headers, config) {
-                $scope.building = data;
-            });
+        signage.controller('TimetableController', function ($scope, buildingFactory, $timeout) {
+            var poll = function() {
+                buildingFactory.getBuildingAsync('IST', function (building, status, headers, config) {
+                    $scope.building = building;
+                });
+
+                $timeout(poll, 1000);
+            };
+
+            poll();
         });
     };
 
