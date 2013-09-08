@@ -32,15 +32,10 @@
             slide_time : 10000
         };
 
-
-
         var signage = angular.module('signage', ['ngSanitize']);
 
         signage.factory('buildingFactory', function ($http) {
             return {
-                getBuildingsAsync: function (building_code, room_code, callback) {
-                    $http.get(config.api_path + 'buildings.json').success(callback);
-                },
                 getBuildingAsync: function (building_code, callback) {
                     $http.get(config.api_path + 'buildings/' + building_code + '.json').success(callback);
                 }
@@ -59,7 +54,7 @@
             $scope.news_slide_style = "";
             $scope.timetable_slide_style = "";
 
-            var slide_ids = ["news", "timetable", "weather"];
+            var slide_ids = [ "news", "timetable", "weather" ];
             var current_slide = 0;
 
             var transition = function() {
@@ -82,7 +77,7 @@
         });
 
         signage.controller('NewsController', function ($scope, newsFactory) {
-            newsFactory.getNewsAsync(function (data, status, headers, config) {
+            newsFactory.getNewsAsync(function (data) {
                 $scope.news = {
                     posts: data,
                     latestArticle: data[0]
@@ -92,7 +87,19 @@
 
         signage.controller('TimetableController', function ($scope, buildingFactory, $timeout) {
             var poll = function() {
-                buildingFactory.getBuildingAsync('IST', function (building, status, headers, config) {
+                buildingFactory.getBuildingAsync('IST', function (building) {
+                    building.booked_rooms = [];
+                    building.empty_rooms = [];
+
+                    angular.forEach(building.rooms, function(room) {
+                        if (room.is_empty) {
+                            building.empty_rooms.push(room);
+                        }
+                        else {
+                            building.booked_rooms.push(room);
+                        }
+                    });
+
                     $scope.building = building;
                 });
 

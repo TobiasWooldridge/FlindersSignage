@@ -1,6 +1,30 @@
 <div class="entity building">
     <h1>{{ building.name }}</h1>
-    <ul class="children">
-        <li ng-repeat="room in building.rooms" ng-include="'views/room.html'"></li>
-    </ul>
+    <h2>What's going on</h2>
+    <table class="rooms children">
+        <tr>
+            <th>Room</th>
+            <th>Room Description</th>
+            <th>Free Until</th>
+        </tr>
+        <tr ng-repeat="room in building.booked_rooms">
+            <td>{{ room.full_code }}</td>
+            <td>{{ room.description }}</td>
+            <td>{{ room.current_booking.ends_at }}</td>
+        </tr>
+    </table>
+
+    <h2>Empty rooms</h2>
+    <table class="rooms children">
+        <tr>
+            <th>Room</th>
+            <th>Room Description</th>
+            <th>Free Until</th>
+        </tr>
+        <tr ng-repeat="room in building.empty_rooms">
+            <td>{{ room.full_code }}</td>
+            <td>{{ room.description }}</td>
+            <td>{{ room.next_booking.starts_at }}</td>
+        </tr>
+    </table>
 </div>
