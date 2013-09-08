@@ -12,12 +12,16 @@
 <body>
 
 <div ng-controller="SlidesController" class="slides">
-    <div ng-controller="NewsController" class="slide {{news_slide_style}}">
+    <div ng-controller="NewsController" class="slide {{news_slide_styles}}">
         <div ng-repeat="article in [news.latestArticle]" ng-include="'views/news-article.html'"></div>
     </div>
 
-    <div ng-controller="TimetableController" class="slide {{timetable_slide_style}}">
+    <div ng-controller="TimetableController" class="slide {{timetable_slide_styles}}">
         <div ng-include="'views/building.html'"></div>
+    </div>
+
+    <div class="slide {{weather_slide_styles}}">
+        <img src="http://placekitten.com/600/900" />
     </div>
 </div>
 
@@ -25,7 +29,7 @@
     function bootstrapAngular() {
         var config = {
             api_path : "http://flinders-signage.herokuapp.com/api/v1/",
-            slide_time : 5000
+            slide_time : 10000
         };
 
 
@@ -55,15 +59,20 @@
             $scope.news_slide_style = "";
             $scope.timetable_slide_style = "";
 
-            var slide_styles = ["news_slide_style", "timetable_slide_style"];
+            var slide_ids = ["news", "timetable", "weather"];
             var current_slide = 0;
 
             var transition = function() {
-                current_slide = (current_slide + 1) % slide_styles.length;
+                var previous_slide = current_slide;
+                current_slide = (current_slide + 1) % slide_ids.length;
 
                 var i;
-                for (i = 0; i < slide_styles.length; i++) {
-                    $scope[slide_styles[i]] = (i == current_slide ? 'active' : 'inactive');
+                for (i = 0; i < slide_ids.length; i++) {
+                    var styles = "";
+                    styles += (i == previous_slide ? ' outgoing' : '');
+                    styles += (i == current_slide ? ' active' : ' inactive');
+
+                    $scope[slide_ids[i] + "_slide_styles"] = styles;
                 }
 
                 $timeout(transition, config.slide_time);
@@ -87,7 +96,7 @@
                     $scope.building = building;
                 });
 
-                $timeout(poll, 1000);
+                $timeout(poll, 60000);
             };
 
             poll();
