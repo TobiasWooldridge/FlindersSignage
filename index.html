@@ -11,30 +11,34 @@
 </head>
 <body>
 
-<div ng-controller="SlidesController">
-    <div ng-controller="NewsController">
+<div ng-controller="SlidesController" class="slides">
+    <div ng-controller="NewsController" class="slide {{news_slide_style}}">
         <div ng-repeat="article in [news.latestArticle]" ng-include="'views/news-article.html'"></div>
     </div>
 
-    <div ng-controller="TimetableController">
+    <div ng-controller="TimetableController" class="slide {{timetable_slide_style}}">
         <div ng-include="'views/building.html'"></div>
     </div>
 </div>
 
 <script>
     function bootstrapAngular() {
-        var API_PATH = "http://flinders-signage.herokuapp.com/api/v1/";
-//        var API_PATH = "http://127.0.0.1:3000/api/v1/";
+        var config = {
+            api_path : "http://flinders-signage.herokuapp.com/api/v1/",
+            slide_time : 5000
+        };
+
+
 
         var signage = angular.module('signage', ['ngSanitize']);
 
         signage.factory('buildingFactory', function ($http) {
             return {
                 getBuildingsAsync: function (building_code, room_code, callback) {
-                    $http.get(API_PATH + 'buildings.json').success(callback);
+                    $http.get(config.api_path + 'buildings.json').success(callback);
                 },
                 getBuildingAsync: function (building_code, callback) {
-                    $http.get(API_PATH + 'buildings/' + building_code + '.json').success(callback);
+                    $http.get(config.api_path + 'buildings/' + building_code + '.json').success(callback);
                 }
             };
         });
@@ -42,12 +46,30 @@
         signage.factory('newsFactory', function ($http) {
             return {
                 getNewsAsync: function (callback) {
-                    $http.get(API_PATH + 'news.json').success(callback);
+                    $http.get(config.api_path + 'news.json').success(callback);
                 }
             };
         });
 
-        signage.controller('SlidesController', function ($scope) {
+        signage.controller('SlidesController', function ($scope, $timeout) {
+            $scope.news_slide_style = "";
+            $scope.timetable_slide_style = "";
+
+            var slide_styles = ["news_slide_style", "timetable_slide_style"];
+            var current_slide = 0;
+
+            var transition = function() {
+                current_slide = (current_slide + 1) % slide_styles.length;
+
+                var i;
+                for (i = 0; i < slide_styles.length; i++) {
+                    $scope[slide_styles[i]] = (i == current_slide ? 'active' : 'inactive');
+                }
+
+                $timeout(transition, config.slide_time);
+            };
+
+            transition();
         });
 
         signage.controller('NewsController', function ($scope, newsFactory) {
@@ -70,7 +92,7 @@
 
             poll();
         });
-    };
+    }
 
     bootstrapAngular();
 </script>
