@@ -7586,9 +7586,15 @@ body {
   overflow: hidden;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  padding-bottom: 100px;
+  padding-bottom: 150px;
   background: #ffe063;
   background: linear-gradient(to bottom, #ffe063 0%, #ffe6a8 100%);
+  color: #333333;
+}
+h1 {
+  font-family: serif !important;
+  font-size: 4em;
+  font-weight: normal;
 }
 .entity ul.children {
   list-style: none;
@@ -7612,6 +7618,9 @@ body {
 .slides .slide.active {
   opacity: 1;
 }
+.slides .slide a {
+  color: #333333;
+}
 .news .content img {
   float: left;
   margin: 0.2em 1em 0.2em 0.2em;
@@ -7629,6 +7638,7 @@ header#flinders-sticky {
   bottom: 0px;
   width: 100%;
   font-family: "Serif";
+  font-weight: normal;
   background: #ffe063;
   background: linear-gradient(to bottom, #ffe063 0%, #ffe6a8 100%);
 }
@@ -7637,14 +7647,16 @@ header#flinders-sticky > div {
 }
 header#flinders-sticky h1 {
   display: inline-block;
-  font-size: 4em;
-  font-weight: normal;
-  line-height: 100px;
+  line-height: 150px;
   margin: 0 0 0 30px;
   padding: 0;
+  color: #333333;
+}
+header#flinders-sticky h1 small {
+  color: rgba(51, 51, 51, 0.75);
 }
 header#flinders-sticky img.logo {
-  height: 100px;
+  height: 150px;
   display: inline;
   vertical-align: top;
 }

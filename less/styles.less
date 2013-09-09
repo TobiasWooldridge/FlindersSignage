@@ -4,7 +4,9 @@
 @flinders-light-yellow: #ffe6a8;
 @flinders-dark-yellow: #ffe063;
 
-@header-height: 100px;
+@header-height: 150px;
+
+@text-color: #333;
 
 .flinders-background {
   background: @flinders-dark-yellow;
@@ -21,6 +23,13 @@ body {
   background-attachment: fixed;
   padding-bottom: @header-height;
   .flinders-background;
+  color: @text-color;
+}
+
+h1 {
+  font-family: serif !important;
+  font-size: 4em;
+  font-weight: normal;
 }
 
 .entity ul.children {
@@ -53,6 +62,10 @@ body {
   opacity: 1;
 }
 
+.slides .slide a {
+  color: @text-color;
+}
+
 .news .content img {
   float: left;
   margin: 0.2em 1em 0.2em 0.2em;
@@ -73,6 +86,7 @@ header#flinders-sticky {
   bottom: 0px;
   width: 100%;
   font-family: "Serif";
+  font-weight: normal;
   .flinders-background;
 }
 
@@ -82,11 +96,14 @@ header#flinders-sticky > div {
 
 header#flinders-sticky h1 {
   display: inline-block;
-  font-size: 4em;
-  font-weight: normal;
   line-height: @header-height;
   margin: 0 0 0 30px;
   padding: 0;
+  color: @text-color;
+}
+
+header#flinders-sticky h1 small {
+  color: fade(@text-color, 75%);
 }
 
 header#flinders-sticky img.logo {
@@ -94,4 +111,3 @@ header#flinders-sticky img.logo {
   display: inline;
   vertical-align: top;
 }
-
