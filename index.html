@@ -3,15 +3,13 @@
     <title>Flinders Signage</title>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-sanitize.js"></script>
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>
-    <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
 
 
-    <link href="styles.css" rel="stylesheet"/>
+    <link href="css/styles.css" rel="stylesheet"/>
 </head>
-<body>
+<body ng-controller="SlidesController">
 
-<div ng-controller="SlidesController" class="slides">
+<div class="slides">
     <div ng-controller="NewsController" class="slide {{news_slide_styles}}">
         <div ng-repeat="article in [news.latestArticle]" ng-include="'views/news-article.html'"></div>
     </div>
@@ -24,6 +22,13 @@
         <img src="http://placekitten.com/600/900" />
     </div>
 </div>
+
+<header id="flinders-sticky">
+    <div>
+        <img alt="Flinders" class="logo" src="/assets/flinders-7e58eb80acf58ced52d5a673dba56f2b.png">
+        <h1>{{ building.name }} <small>{{building.code }}</small> <small>(Week 7)</small></h1>
+    </div>
+</header>
 
 <script>
     function bootstrapAngular() {
@@ -50,7 +55,28 @@
             };
         });
 
-        signage.controller('SlidesController', function ($scope, $timeout) {
+        signage.controller('SlidesController', function ($scope, $timeout, buildingFactory) {
+            var poll = function() {
+                buildingFactory.getBuildingAsync('IST', function (building) {
+                    building.booked_rooms = [];
+                    building.empty_rooms = [];
+
+                    angular.forEach(building.rooms, function(room) {
+                        if (room.is_empty) {
+                            building.empty_rooms.push(room);
+                        }
+                        else {
+                            building.booked_rooms.push(room);
+                        }
+                    });
+
+                    $scope.building = building;
+                });
+
+                $timeout(poll, 60000);
+            };
+
+
             $scope.news_slide_style = "";
             $scope.timetable_slide_style = "";
 
@@ -73,6 +99,7 @@
                 $timeout(transition, config.slide_time);
             };
 
+            poll();
             transition();
         });
 
@@ -86,27 +113,6 @@
         });
 
         signage.controller('TimetableController', function ($scope, buildingFactory, $timeout) {
-            var poll = function() {
-                buildingFactory.getBuildingAsync('IST', function (building) {
-                    building.booked_rooms = [];
-                    building.empty_rooms = [];
-
-                    angular.forEach(building.rooms, function(room) {
-                        if (room.is_empty) {
-                            building.empty_rooms.push(room);
-                        }
-                        else {
-                            building.booked_rooms.push(room);
-                        }
-                    });
-
-                    $scope.building = building;
-                });
-
-                $timeout(poll, 60000);
-            };
-
-            poll();
         });
     }
 
