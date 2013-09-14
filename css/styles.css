@@ -7621,6 +7621,14 @@ h1 {
 .slides .slide a {
   color: #333333;
 }
+.entity {
+  margin: 2px;
+  padding: 1em;
+}
+.news {
+  overflow: hidden;
+  height: 400px;
+}
 .news .content img {
   float: left;
   margin: 0.2em 1em 0.2em 0.2em;
@@ -7628,9 +7636,9 @@ h1 {
 .news .content p:first-of-type {
   display: none;
 }
-.entity {
-  margin: 2px;
-  padding: 1em;
+.news.entity {
+  margin: 0;
+  padding: 0;
 }
 header#flinders-sticky {
   color: #111;
