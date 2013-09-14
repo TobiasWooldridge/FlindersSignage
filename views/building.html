@@ -7,7 +7,7 @@
             <th>Room Description</th>
             <th>Free Until</th>
         </tr>
-        <tr ng-repeat="room in building.booked_rooms">
+        <tr ng-repeat="room in booked_rooms">
             <td>{{ room.full_code }}</td>
             <td>{{ room.description }}</td>
             <td>{{ room.current_booking.ends_at }}</td>
@@ -21,7 +21,7 @@
             <th>Room Description</th>
             <th>Free Until</th>
         </tr>
-        <tr ng-repeat="room in building.empty_rooms">
+        <tr ng-repeat="room in empty_rooms">
             <td>{{ room.full_code }}</td>
             <td>{{ room.description }}</td>
             <td>{{ room.next_booking.starts_at }}</td>

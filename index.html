@@ -47,6 +47,14 @@
             };
         });
 
+        signage.factory('roomsFactory', function ($http) {
+            return {
+                getRoomsAsync: function (building_code, callback) {
+                    $http.get(config.api_path + 'buildings/' + building_code + '/rooms.json').success(callback);
+                }
+            };
+        });
+
         signage.factory('newsFactory', function ($http) {
             return {
                 getNewsAsync: function (callback) {
@@ -58,18 +66,6 @@
         signage.controller('SlidesController', function ($scope, $timeout, buildingFactory) {
             var poll = function() {
                 buildingFactory.getBuildingAsync('IST', function (building) {
-                    building.booked_rooms = [];
-                    building.empty_rooms = [];
-
-                    angular.forEach(building.rooms, function(room) {
-                        if (room.is_empty) {
-                            building.empty_rooms.push(room);
-                        }
-                        else {
-                            building.booked_rooms.push(room);
-                        }
-                    });
-
                     $scope.building = building;
                 });
 
@@ -112,7 +108,27 @@
             });
         });
 
-        signage.controller('TimetableController', function ($scope, buildingFactory, $timeout) {
+        signage.controller('TimetableController', function ($scope, roomsFactory, $timeout) {
+            var poll = function() {
+                roomsFactory.getRoomsAsync("IST", function (rooms) {
+                    $scope.booked_rooms = [];
+                    $scope.empty_rooms = [];
+
+                    angular.forEach(rooms, function(room) {
+                        if (room.is_empty) {
+                            $scope.empty_rooms.push(room);
+                        }
+                        else {
+                            $scope.booked_rooms.push(room);
+                        }
+                    });
+
+                });
+
+                $timeout(poll, 60000);
+            };
+
+            poll();
         });
     }
 
