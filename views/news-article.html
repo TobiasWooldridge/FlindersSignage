@@ -1,2 +1,8 @@
 <h1>{{ article.title }}</h1>
-<div class="content" ng-bind-html="article.content"></div>
+<div class="content">
+    <div class="figure">
+        <img src="{{ article.image }}" width="200px" />
+        <p class="caption">{{ article.caption }}</p>
+    </div>
+    {{ article.plaintext }}
+</div>
