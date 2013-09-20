@@ -31,7 +31,7 @@
 <header id="flinders-sticky">
     <div>
         <img alt="Flinders" class="logo" src="images/flinders-logo.png" width="99" height="150" />
-        <h1>{{ building.name }} <small>{{building.code }}</small> <small>(Week 7)</small></h1>
+        <h1>{{ building.name }} <small>{{building.code }}</small> <small>({{ week }})</small></h1>
     </div>
 </header>
 
@@ -68,13 +68,47 @@
             };
         });
 
-        signage.controller('SlidesController', function ($scope, $timeout, buildingFactory) {
-            var poll = function() {
+        signage.factory('datesFactory', function ($http) {
+            return {
+                getTermDatesAsync: function (callback) {
+                    $http.get(config.api_path + 'dates.json').success(callback);
+                }
+            };
+        });
+
+        signage.controller('SlidesController', function ($scope, $timeout, buildingFactory, datesFactory) {
+            var pollBuilding = function() {
                 buildingFactory.getBuildingAsync('IST', function (building) {
                     $scope.building = building;
                 });
 
-                $timeout(poll, 60000);
+                $timeout(pollBuilding, 3600000);
+            };
+
+            var pollTermDates = function() {
+                datesFactory.getTermDatesAsync(function (dates) {
+                    var date = null;
+
+                    var currentTime = new Date().getTime();
+                    angular.forEach(dates, function (e) {
+                        var spanStart = Date.parse(e.starts_at);
+                        var spanEnd = Date.parse(e.ends_at);
+
+                        if (spanStart <= currentTime && currentTime < spanEnd) {
+                            date = e.week + ", " + e.semester;
+                            return false;
+                        }
+                    });
+
+                    if (date === null) {
+                        date = "Non-semester";
+                    }
+
+                    $scope.week = date;
+
+                });
+
+                $timeout(pollBuilding, 900000);
             };
 
 
@@ -100,7 +134,9 @@
                 $timeout(transition, config.slide_time);
             };
 
-            poll();
+            pollBuilding();
+            pollTermDates();
+
             transition();
         });
 
@@ -108,7 +144,7 @@
             newsFactory.getNewsAsync(function (data) {
                 $scope.news = {
                     headline : data[0],
-                    pastHeadlines : [data[1], data[2], data[3]], // TODO: make this not suck,
+                    pastHeadlines : data.slice(1, 4),
                     posts : data
                 };
 
