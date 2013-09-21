@@ -2,7 +2,8 @@ function signage(userConfig) {
     var config = {
         api_path: "http://flinders-signage.herokuapp.com/api/v1/",
         slide_time: 2000,
-        secondary_news_articles: 2
+        secondary_news_articles: 2,
+        building_code: "IST"
     };
 
     for (var key in userConfig) {
@@ -127,7 +128,7 @@ function signage(userConfig) {
 
     app.controller('TimetableController', function ($scope, roomsFactory, $timeout) {
         var poll = function () {
-            roomsFactory.getRoomsAsync("IST", function (rooms) {
+            roomsFactory.getRoomsAsync(config.building_code, function (rooms) {
                 var ONE_HOUR = 60 * 60 * 1000;
 
                 var now = new Date().getTime();

@@ -3,28 +3,32 @@
         <h1>Current Classes and Events</h1>
         <table class="rooms children room-bookings table table-striped">
             <tr>
-                <th>Room</th>
-                <th>Room Description</th>
-                <th>Next Free</th>
+                <th class="room-full-code">Room</th>
+                <th class="room-description">Room Description</th>
+                <th class="current booking-description">Current Class</th>
+                <th class="current booking-ends-at time-distance">Next Free</th>
             </tr>
             <tr ng-repeat="room in booked_rooms">
-                <td class="room-full-code">{{ room.full_code }}</td>
-                <td class="room-full-code">{{ room.description }}</td>
-                <td class="room-full-code">{{ room.current_booking.ends_at | time_until }}</td>
+                <td>{{ room.full_code }}</td>
+                <td>{{ room.description }}</td>
+                <td>{{ room.current_booking.description }}</td>
+                <td>{{ room.current_booking.ends_at | time_until }}</td>
             </tr>
         </table>
 
         <h1>Free Rooms</h1>
         <table class="rooms children room-bookings table table-striped">
             <tr>
-                <th>Room</th>
-                <th>Room Description</th>
-                <th>Next class</th>
+                <th class="room-full-code">Room</th>
+                <th class="room-description">Room Description</th>
+                <th class="next booking-description">Next class</th>
+                <th class="next booking-starts-at time-distance">Free Until</th>
             </tr>
             <tr ng-repeat="room in empty_rooms">
-                <td class="room-full-code">{{ room.full_code }}</td>
-                <td class="room-full-code">{{ room.description }}</td>
-                <td class="room-full-code">{{ room.next_booking.starts_at | time_until }}</td>
+                <td>{{ room.full_code }}</td>
+                <td>{{ room.description }}</td>
+                <td>{{ room.next_booking.description }}</td>
+                <td>{{ room.next_booking.starts_at | time_until }}</td>
             </tr>
         </table>
     </div>
