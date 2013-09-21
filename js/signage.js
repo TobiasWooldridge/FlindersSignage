@@ -2,7 +2,7 @@ function signage(userConfig) {
     var config = {
         api_path: "http://flinders-signage.herokuapp.com/api/v1/",
         slide_time: 2000,
-        secondary_news_articles: 3
+        secondary_news_articles: 2
     };
 
     for (var key in userConfig) {
@@ -22,10 +22,12 @@ function signage(userConfig) {
     });
 
     app.factory('roomsFactory', function ($http) {
+        var getRoomsAsync = function (building_code, success_callback, error_callback) {
+            $http.get(config.api_path + 'buildings/' + building_code + '/rooms.json').success(success_callback).error(error_callback);
+        };
+
         return {
-            getRoomsAsync: function (building_code, callback) {
-                $http.get(config.api_path + 'buildings/' + building_code + '/rooms.json').success(callback);
-            }
+            "getRoomsAsync": getRoomsAsync
         };
     });
 
@@ -120,17 +122,32 @@ function signage(userConfig) {
                 posts: data
             };
 
-            console.log($scope.news);
         });
     });
 
     app.controller('TimetableController', function ($scope, roomsFactory, $timeout) {
         var poll = function () {
             roomsFactory.getRoomsAsync("IST", function (rooms) {
+                var ONE_HOUR = 60 * 60 * 1000;
+
+                var now = new Date().getTime();
+                var nextSampling = now + ONE_HOUR;
+
                 $scope.booked_rooms = [];
                 $scope.empty_rooms = [];
 
                 angular.forEach(rooms, function (room) {
+                    // Bring the nextSampling closer to whenever this room next changes state
+                    var challengerTimes = [nextSampling];
+
+                    if (room.next_booking !== null) {
+                        nextSampling = Math.min(nextSampling, new Date(room.next_booking.starts_at).getTime());
+                    }
+                    if (room.current_booking !== null) {
+                        nextSampling = Math.min(nextSampling, (room.current_booking.ends_at).getTime());
+                    }
+
+                    // Add room to empty/booked list
                     if (room.is_empty) {
                         $scope.empty_rooms.push(room);
                     }
@@ -139,9 +156,13 @@ function signage(userConfig) {
                     }
                 });
 
-            });
+                var pollDelay = Math.max(nextSampling - now, 30000);
 
-            $timeout(poll, 60000);
+                $timeout(poll, pollDelay);
+                console.log("Polling again in " + pollDelay + " seconds");
+            }, function () {
+                $timeout(poll, 60000);
+            });
         };
 
         poll();

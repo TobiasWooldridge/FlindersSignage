@@ -1,5 +1,5 @@
 <div class="entity booking">
-  <h2>{{ booking.booked_for }} <small>{{ booking.description }}</small></h2>
+  <h1>{{ booking.booked_for }} <small>{{ booking.description }}</small></h1>
   <p>{{ room.full_name }}</p>
   <p>{{ booking.starts_at | date:'mediumTime' }} until {{ booking.ends_at | date:'mediumTime' }}</p>
 </div>
