@@ -4,7 +4,9 @@
 @flinders-light-yellow: #ffe6a8;
 @flinders-dark-yellow: #ffe063;
 
-@header-height: 150px;
+@header-total-height: 150px;
+@header-padding: 10px;
+@header-content-height: @header-total-height - (2 *@header-padding);
 
 @text-color: #333;
 
@@ -21,7 +23,6 @@ body {
   overflow: hidden;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  padding-bottom: @header-height;
   .flinders-background;
   color: @text-color;
 }
@@ -37,9 +38,10 @@ h1 {
 }
 
 .slides {
-  position: static;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: calc(~"100%" - @header-total-height);
+  overflow: hidden;
 }
 
 .slides .slide {
@@ -91,6 +93,14 @@ h1 {
 }
 
 
+@map-border: 20px;
+.campus-slide google-map {
+  height: calc(~"100%" - (2*@map-border));
+  width: calc(~"100%" - (2*@map-border));
+  display: block;
+  margin: @map-border;
+}
+
 header#flinders-sticky {
   color: #111;
   position: absolute;
@@ -98,16 +108,27 @@ header#flinders-sticky {
   width: 100%;
   font-family: "Serif";
   font-weight: normal;
+  height: @header-total-height;
+  overflow: hidden;
   .flinders-background;
 }
 
 header#flinders-sticky > div {
-  padding: 10px;
+  padding: @header-padding;
 }
+
+header#flinders-sticky img.logo {
+  height: @header-content-height;
+  margin: 0;
+  padding: 0;
+  display: inline;
+  vertical-align: top;
+}
+
 
 header#flinders-sticky h1 {
   display: inline-block;
-  line-height: @header-height;
+  line-height: @header-content-height;
   margin: 0 0 0 30px;
   padding: 0;
   color: @text-color;
@@ -115,10 +136,4 @@ header#flinders-sticky h1 {
 
 header#flinders-sticky h1 small {
   color: fade(@text-color, 75%);
-}
-
-header#flinders-sticky img.logo {
-  height: @header-height;
-  display: inline;
-  vertical-align: top;
 }

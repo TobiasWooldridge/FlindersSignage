@@ -7586,7 +7586,6 @@ body {
   overflow: hidden;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  padding-bottom: 150px;
   background: #ffe063;
   background: linear-gradient(to bottom, #ffe063 0%, #ffe6a8 100%);
   color: #333333;
@@ -7600,9 +7599,10 @@ h1 {
   list-style: none;
 }
 .slides {
-  position: static;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 150px);
+  overflow: hidden;
 }
 .slides .slide {
   position: absolute;
@@ -7641,6 +7641,12 @@ h1 {
   margin: 0;
   padding: 0;
 }
+.campus-slide google-map {
+  height: calc(100% - 40px);
+  width: calc(100% - 40px);
+  display: block;
+  margin: 20px;
+}
 header#flinders-sticky {
   color: #111;
   position: absolute;
@@ -7648,24 +7654,28 @@ header#flinders-sticky {
   width: 100%;
   font-family: "Serif";
   font-weight: normal;
+  height: 150px;
+  overflow: hidden;
   background: #ffe063;
   background: linear-gradient(to bottom, #ffe063 0%, #ffe6a8 100%);
 }
 header#flinders-sticky > div {
   padding: 10px;
 }
+header#flinders-sticky img.logo {
+  height: 130px;
+  margin: 0;
+  padding: 0;
+  display: inline;
+  vertical-align: top;
+}
 header#flinders-sticky h1 {
   display: inline-block;
-  line-height: 150px;
+  line-height: 130px;
   margin: 0 0 0 30px;
   padding: 0;
   color: #333333;
 }
 header#flinders-sticky h1 small {
   color: rgba(51, 51, 51, 0.75);
-}
-header#flinders-sticky img.logo {
-  height: 150px;
-  display: inline;
-  vertical-align: top;
 }

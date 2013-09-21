@@ -11,7 +11,7 @@ function signage(userConfig) {
         }
     }
 
-    var app = angular.module('signage', ['ngSanitize']);
+    var app = angular.module('signage', ['ngSanitize', 'google-maps']);
 
     app.factory('buildingFactory', function ($http) {
         return {
@@ -145,6 +145,20 @@ function signage(userConfig) {
         };
 
         poll();
+    });
+
+
+    app.controller('CampusController', function ($scope) {
+        angular.extend($scope, {
+            center: {
+                latitude: -35.022722,
+                longitude: 138.571501
+            },
+            markers: [],
+            zoom: 16,
+            disableDefaultUI: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
     });
 
     app.filter('time_until', function () {
