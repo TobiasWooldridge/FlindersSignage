@@ -17,14 +17,14 @@ function signage(userConfig) {
     app.factory('buildingFactory', function ($http) {
         return {
             getBuildingAsync: function (building_code, callback) {
-                $http.get(config.api_path + 'buildings/' + building_code + '.json').success(callback);
+                $http.get(config.api_path + 'buildings/' + building_code).success(callback);
             }
         };
     });
 
     app.factory('roomsFactory', function ($http) {
         var getRoomsAsync = function (building_code, success_callback, error_callback) {
-            $http.get(config.api_path + 'buildings/' + building_code + '/rooms.json').success(success_callback).error(error_callback);
+            $http.get(config.api_path + 'buildings/' + building_code + '/rooms').success(success_callback).error(error_callback);
         };
 
         return {
@@ -35,7 +35,7 @@ function signage(userConfig) {
     app.factory('newsFactory', function ($http) {
         return {
             getNewsAsync: function (callback) {
-                $http.get(config.api_path + 'news.json').success(callback);
+                $http.get(config.api_path + 'news').success(callback);
             }
         };
     });
@@ -43,7 +43,7 @@ function signage(userConfig) {
     app.factory('datesFactory', function ($http) {
         return {
             getTermDatesAsync: function (callback) {
-                $http.get(config.api_path + 'dates.json').success(callback);
+                $http.get(config.api_path + 'dates').success(callback);
             }
         };
     });
