@@ -145,7 +145,7 @@ function signage(userConfig) {
                         nextSampling = Math.min(nextSampling, new Date(room.next_booking.starts_at).getTime());
                     }
                     if (room.current_booking !== null) {
-                        nextSampling = Math.min(nextSampling, (room.current_booking.ends_at).getTime());
+                        nextSampling = Math.min(nextSampling, new Date(room.current_booking.ends_at).getTime());
                     }
 
                     // Add room to empty/booked list
