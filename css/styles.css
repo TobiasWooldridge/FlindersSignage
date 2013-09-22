@@ -7597,6 +7597,7 @@ h1 {
   color: #333333;
   margin-top: 0;
   padding-top: 0;
+  text-transform: capitalize;
 }
 .entity ul.children {
   list-style: none;
