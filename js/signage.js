@@ -1,6 +1,6 @@
 function signage(userConfig) {
     var config = {
-        api_path: "http://flinders-signage.herokuapp.com/api/v1/",
+        api_path: "http://flindersapi.tobias.pw/api/v1/",
         slide_time: 2000,
         secondary_news_articles: 2,
         building_code: "IST"
