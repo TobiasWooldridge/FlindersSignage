@@ -1,1 +1,6 @@
-.idea
+*.sw*
+*~
+build/
+bin/
+node_modules/
+vendor/

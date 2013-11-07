@@ -1,0 +1,40 @@
+<div class="slides">
+    <div ng-controller="NewsController" class="news-slide slide {{news_slide_styles}}">
+        <div class="row-fluid">
+            <div ng-repeat="article in [news.headline]" class="col-md-5">
+                <div class="entity news" ng-include="'signage/views/news-article.tpl.html'"></div>
+            </div>
+            <div class="col-md-7">
+                <div ng-repeat="article in news.pastHeadlines">
+                    <div class="entity news secondary" ng-include="'signage/views/news-article.tpl.html'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="TimetableController" class="timetable-slide slide {{timetable_slide_styles}}">
+        <div ng-include="'signage/views/building-times.tpl.html'"></div>
+    </div>
+
+    <div ng-controller="CampusController" class="campus-slide slide {{weather_slide_styles}}">
+        <h1>CampusToday</h1>
+
+        <div class="row-fluid">
+            <div class="col-md-7">
+                <iframe id="forecast_embed" type="text/html" frameborder="0" height="100%" width="700px" src="http://forecast.io/embed/#lat=-35.022722&lon=138.571501&name=Flinders University&units=uk"></iframe>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<header id="flinders-sticky">
+    <div>
+        <img alt="Flinders" class="logo" src="assets/images/flinders-logo.png"/>
+
+        <h1>{{ building.name }}
+            <small>{{building.code }}</small>
+            <small>({{ week }})</small>
+        </h1>
+    </div>
+</header>
