@@ -1,0 +1,194 @@
+/**
+ * This is the main application stylesheet. It should include or import all
+ * stylesheets used throughout the application as this is the only stylesheet in
+ * the Grunt configuration that is automatically processed.
+ */
+
+
+/**
+ * First, we include the Twitter Bootstrap LESS files. Only the ones used in the
+ * project should be imported as the rest are just wasting space.
+ */
+
+@import '../../vendor/bootstrap/less/mixins.less';
+@import '../../vendor/bootstrap/less/reset.less';
+@import '../../vendor/bootstrap/less/utilities.less';
+@import '../../vendor/bootstrap/less/scaffolding.less';
+@import '../../vendor/bootstrap/less/type.less';
+@import '../../vendor/bootstrap/less/grid.less';
+@import '../../vendor/bootstrap/less/layouts.less';
+@import '../../vendor/bootstrap/less/navs.less';
+@import '../../vendor/bootstrap/less/navbar.less';
+@import '../../vendor/bootstrap/less/buttons.less';
+@import '../../vendor/bootstrap/less/button-groups.less';
+@import '../../vendor/bootstrap/less/dropdowns.less';
+
+
+/**
+ * This is our main variables file. It in turn imports the `variables` file from
+ * Twitter Bootstrap. We must include it last so we can overwrite any variable
+ * definitions in our imported stylesheets.
+ */
+
+@import 'variables.less';
+
+.flinders-background {
+  background: @flinders-dark-yellow;
+  background: linear-gradient(to bottom, @flinders-dark-yellow 0%,@flinders-light-yellow 100%);
+}
+
+html, body, #main {
+  height: 100%;
+}
+
+
+body {
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  .flinders-background;
+  color: @text-color;
+}
+
+h1 {
+  font-family: serif !important;
+  font-size: 4em;
+  font-weight: normal;
+  color: @text-color;
+  margin-top: 0;
+  padding-top: 0;
+  text-transform: capitalize;
+}
+
+.entity ul.children {
+  list-style: none;
+}
+
+.slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slides .slide {
+  position: absolute;
+  top: 0;
+  transition: all .8s ease-in-out;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  margin: @slides-margin;
+}
+
+.slides .slide.outgoing {
+}
+
+.slides .slide.inactive {
+  opacity: 0;
+}
+
+.slides .slide.active {
+  opacity: 1;
+}
+
+.slides .slide a {
+  color: @text-color;
+}
+
+.entity {
+}
+
+
+.news {
+  overflow: hidden;
+}
+
+.news.entity {
+  margin-bottom: 2em;
+  padding: 0;
+}
+
+.news.entity.secondary {
+  font-size: 0.95em;
+}
+
+.news .content {
+  line-height: 1.75;
+}
+
+.news .content .figure {
+  float: left;
+  margin: 0.2em 1em 0.2em 0.2em;
+  width: 200px;
+}
+.news .content .figure .caption {
+  font-size: 0.8em;
+}
+
+
+table.room-bookings {
+  opacity: 100%;
+  word-wrap: break-word;
+}
+
+table th.room-full-code {
+  width: 20em;
+}
+table th.room-description {
+  width: 50em;
+}
+
+table th.booking-description {
+  width: 50em;
+}
+
+table th.time-distance {
+  width: 20em;
+}
+
+
+
+@map-border: 0px;
+.campus-slide google-map {
+  height: calc(~"100%" - (2*@map-border));
+  width: calc(~"100%" - (2*@map-border));
+  display: block;
+  margin: @map-border;
+}
+
+header#flinders-sticky {
+  color: #111;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  font-family: "Serif";
+  font-weight: normal;
+  height: @header-total-height;
+  overflow: hidden;
+  .flinders-background;
+}
+
+header#flinders-sticky > div {
+  padding: @header-padding;
+}
+
+header#flinders-sticky img.logo {
+  height: @header-content-height;
+  margin: 0;
+  padding: 0;
+  display: inline;
+  vertical-align: top;
+}
+
+
+header#flinders-sticky h1 {
+  display: inline-block;
+  line-height: @header-content-height;
+  margin: 0 0 0 30px;
+  padding: 0;
+}
+
+header#flinders-sticky h1 small {
+  color: fade(@text-color, 75%);
+}
