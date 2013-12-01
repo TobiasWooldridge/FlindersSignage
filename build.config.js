@@ -75,12 +75,18 @@ module.exports = {
   },
 
   connect: {
-    server: {
-      options: {
-        port: 1337,
-        base: 'build',
-        keepalive: true
+      server: {
+          options: {
+              port: 1337,
+              base: 'build'
+          }
+      },
+      keepalive: {
+          options: {
+              port: 1337,
+              base: 'build',
+              keepalive: true
+          }
       }
-    }
   }
 };

@@ -1,6 +1,6 @@
 var config = {
     api_path: "http://flindersapi.tobias.pw/api/v1/",
-    slide_time: 2000,
+    slide_time: 10000,
     secondary_news_articles: 2,
     building_code: "IST"
 };
@@ -19,7 +19,7 @@ angular.module( 'flindersSignage.signage', [
       }
     },
 
-    data:{ pageTitle: 'Sign' }
+    data: { pageTitle: 'Signage Stuff' }
   });
 })
 
@@ -147,13 +147,12 @@ angular.module( 'flindersSignage.signage', [
             $scope.empty_rooms = [];
 
             angular.forEach(rooms, function (room) {
-                // Bring the nextSampling closer to whenever this room next changes state
-                var challengerTimes = [nextSampling];
-
-                if (room.next_booking !== null) {
+                // Bring the nextSampling closer to whenever a room in this building next changes state
+                if (room.next_booking) {
                     nextSampling = Math.min(nextSampling, new Date(room.next_booking.starts_at).getTime());
                 }
-                if (room.current_booking !== null) {
+
+                if (room.current_booking) {
                     nextSampling = Math.min(nextSampling, new Date(room.current_booking.ends_at).getTime());
                 }
 
@@ -186,6 +185,7 @@ angular.module( 'flindersSignage.signage', [
         if (input === null) {
             return "";
         }
+
         return moment(input).fromNow();
     };
 })
