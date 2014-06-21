@@ -1,0 +1,11 @@
+
+<div class="row-fluid">
+    <div ng-repeat="article in [news.headline]" class="col-md-5">
+        <div class="entity news" ng-include="'signage/views/news-article.tpl.html'"></div>
+    </div>
+    <div class="col-md-7">
+        <div ng-repeat="article in news.pastHeadlines">
+            <div class="entity news secondary" ng-include="'signage/views/news-article.tpl.html'"></div>
+        </div>
+    </div>
+</div>

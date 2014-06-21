@@ -7,12 +7,8 @@ angular.module( 'flindersSignage', [
 ])
 
 .config( function myAppConfig ($stateProvider, $urlRouterProvider, $locationProvider) {
-  $urlRouterProvider.otherwise('/');
-  $locationProvider.html5Mode(true);
-})
-
-.run( function run () {
-})
+        $locationProvider.hashPrefix('!');
+    })
 
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
